@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+ #!/usr/bin/env python3
 ###########################################################################
 # obd_sensors.py
 #
@@ -37,7 +37,7 @@ def throttle_pos(code):
 def intake_m_pres(code): # in kPa
     code = hex_to_int(code)
     return code / 0.14504
-    
+
 def rpm(code):
     code = hex_to_int(code)
     return code / 4
@@ -60,7 +60,7 @@ def sec_to_min(code):
 
 def temp(code):
     code = hex_to_int(code)
-    return code - 40 
+    return code - 40
 
 def cpass(code):
     #fixme
@@ -79,26 +79,26 @@ def dtc_decrypt(code):
         mil = 1
     else:
         mil = 0
-        
-    # bit 0-6 are the number of dtc's. 
+
+    # bit 0-6 are the number of dtc's.
     num = num & 0x7f
-    
+
     res.append(num)
     res.append(mil)
-    
+
     numB = hex_to_int(code[2:4]) #B byte
-      
+
     for i in range(0,3):
         res.append(((numB>>i)&0x01)+((numB>>(3+i))&0x02))
-    
+
     numC = hex_to_int(code[4:6]) #C byte
     numD = hex_to_int(code[6:8]) #D byte
-       
+
     for i in range(0,7):
         res.append(((numC>>i)&0x01)+(((numD>>i)&0x01)<<1))
-    
-    res.append(((numD>>7)&0x01)) #EGR SystemC7  bit of different 
-    
+
+    res.append(((numD>>7)&0x01)) #EGR SystemC7  bit of different
+
     return res
 
 def bin(s):
@@ -115,11 +115,11 @@ class Sensor:
         self.unit = u
 
 SENSORS = [
-    Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),    
-    Sensor("Status Since DTC Cleared", "0101", dtc_decrypt       ,""       ),    
-    Sensor("DTC Causing Freeze Frame", "0102", cpass             ,""       ),    
+    Sensor("          Supported PIDs", "0100", hex_to_bitstring  ,""       ),
+    Sensor("Status Since DTC Cleared", "0101", dtc_decrypt       ,""       ),
+    Sensor("DTC Causing Freeze Frame", "0102", cpass             ,""       ),
     Sensor("      Fuel System Status", "0103", cpass             ,""       ),
-    Sensor("   Calculated Load Value", "0104", percent_scale     ,""       ),    
+    Sensor("   Calculated Load Value", "0104", percent_scale     ,""       ),
     Sensor("     Coolant Temperature", "0105", temp              ,"C"      ),
     Sensor("    Short Term Fuel Trim", "0106", fuel_trim_percent ,"%"      ),
     Sensor("     Long Term Fuel Trim", "0107", fuel_trim_percent ,"%"      ),
@@ -150,13 +150,13 @@ SENSORS = [
     Sensor("  Engine Run with MIL on", "014E", sec_to_min        ,"min"    ),
 
     ]
-     
-    
+
+
 #___________________________________________________________
 
 def test():
     for i in SENSORS:
-        print i.name, i.value("F")
+        print( i.name, i.value("F") )
 
 if __name__ == "__main__":
     test()
