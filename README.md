@@ -1,7 +1,9 @@
 Copyright 2004 Donour Sizemore (donour@uchicago.edu)
+
 Copyright 2009 Secons Ltd. (www.obdtester.com)
 
-This file is part of pyOBD.
+
+**Thes files are  pyOBD.**
 
 pyOBD is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
